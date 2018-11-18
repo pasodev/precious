@@ -6,7 +6,7 @@
  * Time: 15:36
  */
 
-namespace src\Network;
+namespace App\Network;
 
 interface Sourcer
 {

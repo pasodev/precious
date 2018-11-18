@@ -6,10 +6,7 @@
  * Time: 15:36
  */
 
-namespace src\Network;
-
-require('Sourcer.php');
-
+namespace App\Network;
 
 class UrlSourcer implements Sourcer
 {
@@ -92,7 +89,7 @@ class UrlSourcer implements Sourcer
      * tor --hash-password
      *
      **/
-    public function tor_new_identity($tor_ip='127.0.0.1', $control_port='9050', $auth_code='')
+    public function tor_new_identity($tor_ip='127.0.0.1', $control_port='9051', $auth_code='')
     {
         $fp = fsockopen($tor_ip, $control_port, $errno, $errstr, 30);
         if (!$fp) {
@@ -115,7 +112,8 @@ class UrlSourcer implements Sourcer
         //send the request to for new identity
         fputs($fp, "signal NEWNYM\r\n");
         $response = fread($fp, 1024);
-        list($code, $text) = explode(' ', $response, 2);
+
+        list($code) = explode(' ', $response, 2);
         if ($code != '250') return false; //signal failed
 
         fclose($fp);

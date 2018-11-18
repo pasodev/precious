@@ -6,18 +6,18 @@
  * Time: 11:26
  */
 
-namespace Crawler;
+namespace App\Crawler;
 
-include "../Network/TorCurl/UrlSourcer.php";
-include "Crawler.php";
+use Symfony\Component\DomCrawler\Crawler;
 
-
-class GenericCrawler implements Crawler
+class GenericCrawler implements CrawlerInterface
 {
 
     private $url='';
     private $html = '';
     private $dom = NULL;
+    protected $home = '';
+    protected $sections = [];
 
     public function __construct( $url=NULL )
     {
@@ -29,6 +29,7 @@ class GenericCrawler implements Crawler
     public function setUrl( $url )
     {
         $this->url = $url;
+        return $this;
     }
 
     public function getUrl()
@@ -43,8 +44,8 @@ class GenericCrawler implements Crawler
             return $this;
         }
 
-        $sourcer = new  \src\Network\UrlSourcer($this->getUrl());
-        $this->setHtml($sourcer->get());
+        $sourcer = new  \App\Network\UrlSourcer($this->getUrl());
+        $this->html = $sourcer->get();
         return $this;
     }
 
@@ -61,5 +62,26 @@ class GenericCrawler implements Crawler
     public function getDom()
     {
         return $this->dom;
+    }
+
+    public function getProducts()
+    {
+        return $this;
+    }
+
+    public function getProduct($productName = false)
+    {
+        return $this;
+    }
+
+    public function setSections( $sections = [] )
+    {
+        $this->sections = $sections;
+        return $this;
+    }
+
+    public function getSections()
+    {
+        return $this->sections;
     }
 }
